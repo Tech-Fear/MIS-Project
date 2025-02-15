@@ -3,11 +3,10 @@ dotenv.config();
 
 import cors from "cors";
 import express from "express";
-import connectDB from "./config/db.js";
-
-import adminRoutes from "./routes/adminRoutes.js";
-import authRoutes from "./routes/authRoutes.js";
-import shuttleRoutes from "./routes/shuttleRoutes.js";
+import connectDB from "../config/db.js";
+import adminRoutes from "../routes/adminRoutes.js";
+import authRoutes from "../routes/authRoutes.js";
+import shuttleRoutes from "../routes/shuttleRoutes.js";
 
 const app = express();
 

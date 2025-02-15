@@ -24,9 +24,12 @@ const PeakHourManagement = () => {
 
   const fetchPeakHourStatus = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/peak-hour", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const res = await axios.get(
+        "https://mis-backend-phi.vercel.app/api/admin/peak-hour",
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setIsPeakHour(res.data.isPeakHour);
       setManualOverride(res.data.manualOverride);
       setLoading(false);
@@ -41,7 +44,7 @@ const PeakHourManagement = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/admin/set-peak-hour",
+        "https://mis-backend-phi.vercel.app/api/admin/set-peak-hour",
         { isPeakHour, manualOverride },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

@@ -25,11 +25,11 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://mis-backend-phi.vercel.app/api/auth/login",
         formData
       );
       login(res.data.token, res.data.user);
-      navigate(res.data.user.role === "admin" ? "/admin" : "/booking");
+      navigate("/booking");
     } catch (err) {
       console.log(err);
       setError("Invalid email or password.");

@@ -10,10 +10,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import io from "socket.io-client";
 
-const API_BASE_URL = "http://localhost:5000";
-const socket = io(API_BASE_URL);
+const API_BASE_URL = "https://mis-backend-phi.vercel.app";
 
 const UserDashboard = () => {
   const [walletBalance, setWalletBalance] = useState(0);
@@ -26,14 +24,6 @@ const UserDashboard = () => {
   useEffect(() => {
     fetchWalletData();
     fetchRideHistory();
-
-    socket.on("optimizedRoutes", (data) => {
-      setShuttleLoads(data.flowPath);
-    });
-
-    return () => {
-      socket.off("optimizedRoutes");
-    };
   }, []);
 
   const fetchWalletData = async () => {
@@ -60,6 +50,7 @@ const UserDashboard = () => {
       console.error("Failed to fetch ride history:", err);
     }
   };
+
   return (
     <Container>
       <Typography variant="h4" textAlign="center" mt={3}>
@@ -151,31 +142,6 @@ const UserDashboard = () => {
                 ) : (
                   <Alert severity="info" sx={{ mt: 2 }}>
                     No ride history found.
-                  </Alert>
-                )}
-              </Box>
-            )}
-
-            {tabIndex === 2 && (
-              <Box mt={2}>
-                {shuttleLoads.length > 0 ? (
-                  shuttleLoads.map((route, index) => (
-                    <Paper
-                      key={index}
-                      sx={{
-                        p: 2,
-                        mt: 1,
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Typography>🚍 {route.path.join(" → ")}</Typography>
-                      <Typography>Seats Available: {route.flow}</Typography>
-                    </Paper>
-                  ))
-                ) : (
-                  <Alert severity="info" sx={{ mt: 2 }}>
-                    No active shuttles currently.
                   </Alert>
                 )}
               </Box>

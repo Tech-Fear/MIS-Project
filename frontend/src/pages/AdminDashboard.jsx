@@ -26,9 +26,12 @@ const AdminDashboard = () => {
 
   const fetchShuttles = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/shuttles", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const res = await axios.get(
+        "https://mis-backend-phi.vercel.app/api/admin/shuttles",
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setShuttles(res.data.shuttles);
     } catch (err) {
       console.log(err);
@@ -38,9 +41,12 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/users", {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-      });
+      const res = await axios.get(
+        "https://mis-backend-phi.vercel.app/api/admin/users",
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
       setUsers(res.data.users);
     } catch (err) {
       console.log(err);

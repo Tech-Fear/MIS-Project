@@ -12,7 +12,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://mis-backend-phi.vercel.app";
 
 const WalletPage = () => {
   const { user, login } = useContext(AuthContext);
@@ -34,14 +34,15 @@ const WalletPage = () => {
       setWalletBalance(res.data.walletBalance);
       setTransactions(res.data.transactions || []);
     } catch (err) {
-      console.log(err);
+      console.error("Failed to fetch wallet data:", err);
       setMessage("Failed to fetch wallet data.");
       setTransactions([]);
     }
   };
 
   const handleAddFunds = async () => {
-    if (amount <= 0) {
+    const numericAmount = parseFloat(amount);
+    if (isNaN(numericAmount) || numericAmount <= 0) {
       setMessage("Enter a valid amount.");
       return;
     }
@@ -49,7 +50,7 @@ const WalletPage = () => {
     try {
       const res = await axios.post(
         `${API_BASE_URL}/api/auth/wallet/add`,
-        { amount },
+        { amount: numericAmount },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -63,9 +64,10 @@ const WalletPage = () => {
 
       setWalletBalance(newBalance);
       setMessage("Wallet updated successfully!");
+      setAmount("");
       fetchWalletData();
     } catch (err) {
-      console.log(err);
+      console.error("Error updating wallet:", err);
       setMessage("Error updating wallet.");
     }
   };

@@ -10,9 +10,6 @@ import {
   TileLayer,
   useMap,
 } from "react-leaflet";
-import io from "socket.io-client";
-
-const socket = io("http://localhost:5000");
 
 const LiveShuttleTracking = () => {
   const [shuttles, setShuttles] = useState([]);
@@ -22,23 +19,13 @@ const LiveShuttleTracking = () => {
   useEffect(() => {
     fetchShuttles();
     getUserLocation();
-
-    socket.on("locationUpdate", (data) => {
-      setShuttles((prevShuttles) =>
-        prevShuttles.map((shuttle) =>
-          shuttle._id === data.shuttleId ? { ...shuttle, ...data } : shuttle
-        )
-      );
-    });
-
-    return () => {
-      socket.off("locationUpdate");
-    };
   }, []);
 
   const fetchShuttles = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/shuttle/shuttles");
+      const res = await axios.get(
+        "https://mis-backend-phi.vercel.app/api/shuttle/shuttles"
+      );
       if (Array.isArray(res.data.shuttles)) {
         setShuttles(res.data.shuttles);
         setRoutes(

@@ -10,11 +10,13 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://mis-backend-phi.vercel.app";
 
 const ShuttleBooking = () => {
+  const { user, login } = useContext(AuthContext);
   const [stops, setStops] = useState([]);
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
@@ -136,9 +138,11 @@ const ShuttleBooking = () => {
         }
       );
       const userData = localStorage.getItem("user");
-      localStorage.removeItem("user");
-      userData.walletBalance = userData.walletBalance - cost;
-      localStorage.setItem("user", userData);
+      const newBalance = userData.walletBalance - cost;
+      login(localStorage.getItem("token"), {
+        ...user,
+        walletBalance: newBalance,
+      });
       showMessage(data.msg, "success");
     } catch (err) {
       showMessage(
