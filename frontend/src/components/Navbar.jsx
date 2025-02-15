@@ -31,7 +31,7 @@ const Navbar = () => {
                 Book Shuttle
               </Button>
               <Button color="inherit" component={Link} to="/wallet">
-                Wallet ({user.walletBalance} points)
+                Wallet
               </Button>
               <Button color="inherit" component={Link} to="/dashboard">
                 Dashboard
